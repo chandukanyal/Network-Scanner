@@ -1,0 +1,10 @@
+NETWORK SCAN REPORT
+========================================
+Target IP: 127.0.0.1
+Scan Date: 2026-11-21 04:30:02
+========================================
+Port 135 | OPEN | Service: epmap
+Port 445 | OPEN | Service: microsoft-ds
+========================================
+Scan completed.
+Total open ports: 2
