@@ -1,14 +1,20 @@
 import socket
+import ipaddress
 
-target = "127.0.0.1"
+# Get target IP from user
+target = input("Enter target IP address: ")
 
-ports = [
-    21, 22, 23, 25, 53, 80, 110, 135, 139,
-    443, 445, 3306, 3389, 8080, 8443
-]
+# Validate IP address
+try:
+    ipaddress.ip_address(target)
+except ValueError:
+    print("Invalid IP address!")
+    exit()
 
-print(f"Scanning target: {target}")
-print("-" * 40)
+ports = [21, 22, 23, 25, 53, 80, 110, 135, 139, 443, 445, 3306, 3389, 8080, 8443]
+
+print(f"\nScanning {target}")
+print("=" * 50)
 
 for port in ports:
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -17,9 +23,14 @@ for port in ports:
     result = sock.connect_ex((target, port))
 
     if result == 0:
-        print(f"[+] Port {port} is OPEN")
+        try:
+            service = socket.getservbyport(port, "tcp")
+        except OSError:
+            service = "Unknown"
+
+        print(f"[+] Port {port:<5} OPEN   Service: {service}")
 
     sock.close()
 
-print("-" * 40)
+print("=" * 50)
 print("Scan completed.")
